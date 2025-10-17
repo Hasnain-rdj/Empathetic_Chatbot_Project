@@ -24,3 +24,6 @@ saved_models/checkpoint_*.pkl
 
 # Keep .gitattributes for Git LFS
 !.gitattributes
+
+# Keep Python version specification
+!.python-version
