@@ -1,0 +1,26 @@
+# Ignore everything by default
+*
+
+# Then explicitly allow the files you want to keep
+!empathetic_chatbot.ipynb
+!streamlit_app.py
+!requirements.txt
+!README.md
+
+# Ignore large model files (use external hosting)
+saved_models/best_model.pkl
+saved_models/checkpoint_*.pkl
+
+# Allow complete saved_data folder
+!saved_data/
+!saved_data/**
+
+# Allow complete saved_vocab folder
+!saved_vocab/
+!saved_vocab/**
+
+# Keep .gitignore itself
+!.gitignore
+
+# Keep .gitattributes for Git LFS
+!.gitattributes
