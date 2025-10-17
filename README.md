@@ -64,7 +64,7 @@ This project implements an empathetic conversational AI that can understand huma
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/Hasnain-rdj/Empathetic_Chatbot_Project.git
    cd empathetic-chatbot
    ```
 
