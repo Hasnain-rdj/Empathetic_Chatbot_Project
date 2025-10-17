@@ -428,8 +428,8 @@ def load_model_and_vocab():
         if model_path is None:
             return None, None, "Model file not found. Please ensure 'best_model.pkl' exists."
         
-        # Load checkpoint - compatible with PyTorch 1.13.1
-        checkpoint = torch.load(model_path, map_location='cpu')
+        # Load checkpoint - compatible with PyTorch 2.0+
+        checkpoint = torch.load(model_path, map_location='cpu', weights_only=False)
         
         # Load vocabulary from checkpoint
         if 'vocab' in checkpoint and checkpoint['vocab'] is not None:
