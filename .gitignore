@@ -27,3 +27,6 @@ saved_models/checkpoint_*.pkl
 
 # Keep Python version specification
 !.python-version
+
+# Keep evaluation report
+!EVALUATION_REPORT.md
