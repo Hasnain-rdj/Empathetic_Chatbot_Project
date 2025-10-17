@@ -364,10 +364,54 @@ def ensure_vocab_compatibility(vocab):
     
     return vocab
 
+def download_model_from_github():
+    """Download model from GitHub releases if not present"""
+    model_path = 'saved_models/best_model.pkl'
+    
+    if not os.path.exists(model_path):
+        st.info("📥 Downloading model from GitHub (first time only, ~545MB)...")
+        
+        # Replace with your actual release URL after uploading to GitHub releases
+        model_url = "https://github.com/Hasnain-rdj/Empathetic_Chatbot_Project/releases/download/v1.0.0/best_model.pkl"
+        
+        # Create directory if it doesn't exist
+        os.makedirs('saved_models', exist_ok=True)
+        
+        try:
+            import requests
+            with st.spinner("Downloading model... Please wait."):
+                response = requests.get(model_url, stream=True)
+                response.raise_for_status()
+                
+                total_size = int(response.headers.get('content-length', 0))
+                progress_bar = st.progress(0)
+                
+                with open(model_path, 'wb') as f:
+                    downloaded = 0
+                    for chunk in response.iter_content(chunk_size=8192):
+                        f.write(chunk)
+                        downloaded += len(chunk)
+                        if total_size > 0:
+                            progress = downloaded / total_size
+                            progress_bar.progress(progress)
+                
+                st.success("✅ Model downloaded successfully!")
+                
+        except Exception as e:
+            st.error(f"❌ Error downloading model: {str(e)}")
+            st.error("Please download manually from: https://github.com/Hasnain-rdj/Empathetic_Chatbot_Project/releases")
+            return False
+    
+    return True
+
 @st.cache_resource
 def load_model_and_vocab():
     """Load the trained model and vocabulary"""
     try:
+        # Download model if not present
+        if not download_model_from_github():
+            return None, None, "Failed to download model from GitHub releases."
+        
         # Try different possible paths
         possible_paths = [
             'saved_models/best_model.pkl',
@@ -607,6 +651,10 @@ def plot_attention_heatmap(attention_weights, input_tokens, output_tokens, layer
 def main():
     # Header
     st.markdown('<div class="main-header">🤖 Empathetic Chatbot</div>', unsafe_allow_html=True)
+    
+    # Model info
+    if not os.path.exists('saved_models/best_model.pkl'):
+        st.info("ℹ️ **First-time setup**: The trained model (~545MB) will be automatically downloaded from GitHub releases on first run.")
     
     # Auto-load model on startup
     if not st.session_state.model_loaded:
